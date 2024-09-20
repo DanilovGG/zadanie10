@@ -1,31 +1,58 @@
 public class Radio {
-    public int currentStationNumber;
-    public int currentVolume;
+    private int numStations;                          // Количество радиостанций
+    private int currentStationNumber;                 // Текущий номер станции
+    private int currentVolume;                        // Текущий уровень громкости
+
+    public Radio(int numberOfStations) {
+        this.numStations = numberOfStations;
+        this.currentStationNumber = 0;
+        this.currentVolume = 0;
+    }
+
+    public Radio() {
+        this(10);                                     // Если параметры не заданы, то устанавливаем 10 станций по умолчанию
+    }
 
     public void setCurrentStationNumber(int newCurrentStationNumber) {
-        if (newCurrentStationNumber < 0 || newCurrentStationNumber > 9) {
-            throw new IllegalArgumentException("Номер станции должен быть в диапазоне от 0 до 9");
+        if (newCurrentStationNumber < 0 || newCurrentStationNumber >= this.numStations) {
+            throw new IllegalArgumentException("Номер станции должен быть в диапазоне от 0 до " + (this.numStations - 1));
         }
-        currentStationNumber = newCurrentStationNumber;
+        this.currentStationNumber = newCurrentStationNumber;
     }
 
     public int getCurrentStationNumber() {
-        return currentStationNumber;
+        return this.currentStationNumber;
     }
 
     public void nextStation() {
-        if (currentStationNumber == 9) {
-            currentStationNumber = 0;
+        if (this.currentStationNumber == this.numStations - 1) {
+            this.currentStationNumber = 0;
         } else {
-            currentStationNumber++;
+            this.currentStationNumber++;
         }
     }
 
     public void previousStation() {
-        if (currentStationNumber == 0) {
-            currentStationNumber = 9;
+        if (this.currentStationNumber == 0) {
+            this.currentStationNumber = this.numStations - 1;
         } else {
-            currentStationNumber--;
+            this.currentStationNumber--;
+        }
+    }
+
+    public void increaseVolume() {
+        if (this.currentVolume == 100) {
+            this.currentVolume = 0;
+        } else {
+            this.currentVolume++;
+        }
+    }
+
+    public void decreaseVolume() {
+        if (this.currentVolume == 0) {
+            this.currentVolume = 100;
+        } else {
+            this.currentVolume--;
         }
     }
 
@@ -33,26 +60,10 @@ public class Radio {
         if (newCurrentVolume < 0 || newCurrentVolume > 100) {
             throw new IllegalArgumentException("Громкость должна быть от 0 до 100");
         }
-        currentVolume = newCurrentVolume;
+        this.currentVolume = newCurrentVolume;
     }
 
     public int getCurrentVolume() {
-        return currentVolume;
-    }
-
-    public void increaseVolume() {
-        if (currentVolume == 100) {
-                currentVolume = 0;
-            } else {
-            currentVolume++;
-        }
-    }
-
-    public void decreaseVolume() {
-        if (currentVolume == 0) {
-            currentVolume = 100;
-        } else {
-            currentVolume--;
-        }
+        return this.currentVolume;
     }
 }

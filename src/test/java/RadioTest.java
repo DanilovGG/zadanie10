@@ -109,4 +109,75 @@ public class RadioTest {
             Assertions.assertEquals(expectedMessage, exception.getMessage());
         }
     }
+
+    @Test //правильности установки и получения текущего номера станции
+    public void testGetAndSetCurrentStationNumber() {
+        Radio radio = new Radio();
+
+        for (int i = 0; i <= 9; i++) {
+            radio.setCurrentStationNumber(i);
+            Assertions.assertEquals(radio.getCurrentStationNumber(), i);
+        }
+
+        try {
+            radio.setCurrentStationNumber(-1);
+            Assertions.fail("Ожидаемое исключение не возникло.");
+        } catch (IllegalArgumentException e) {
+            Assertions.assertTrue(true);
+        }
+
+        try {
+            radio.setCurrentStationNumber(10);
+            Assertions.fail("Ожидаемое исключение не возникло..");
+        } catch (IllegalArgumentException e) {
+            Assertions.assertTrue(true);
+        }
+    }
+
+    @Test //навигации по станциям
+    public void testNavigationBetweenStations() {
+        Radio radio = new Radio(20);
+
+        int currentStationNumber = radio.getCurrentStationNumber();
+        while (currentStationNumber < 19) {
+            radio.nextStation();
+            currentStationNumber = radio.getCurrentStationNumber();
+        }
+
+        radio.nextStation();
+        Assertions.assertEquals(radio.getCurrentStationNumber(), 0);
+
+        currentStationNumber = radio.getCurrentStationNumber();
+        while (currentStationNumber > 0) {
+            radio.previousStation();
+            currentStationNumber = radio.getCurrentStationNumber();
+        }
+
+        radio.previousStation();
+        Assertions.assertEquals(radio.getCurrentStationNumber(), 19);
+    }
+
+    @Test //управления уровнем громкости
+    public void testIncreaseAndDecreaseVolume() {
+        Radio radio = new Radio();
+
+        int initialVolume = radio.getCurrentVolume();
+        while (initialVolume != 100) {
+            radio.increaseVolume();
+            initialVolume = radio.getCurrentVolume();
+        }
+
+        Assertions.assertEquals(radio.getCurrentVolume(), 100);
+
+        radio.increaseVolume();
+        Assertions.assertEquals(radio.getCurrentVolume(), 0);
+
+        initialVolume = radio.getCurrentVolume();
+        while (initialVolume != 100) {
+            radio.decreaseVolume();
+            initialVolume = radio.getCurrentVolume();
+        }
+
+        Assertions.assertEquals(radio.getCurrentVolume(), 100);
+    }
 }
