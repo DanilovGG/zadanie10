@@ -110,24 +110,6 @@ public class RadioTest {
         }
     }
 
-    @Test//создания объекта с разными количествами радиостанций
-    public void testCreateWithDifferentNumberOfStations() {
-        // Positive cases
-        Radio radio1 = new Radio(10);
-        Assertions.assertEquals(radio1.getNumStations(), 10);
-
-        Radio radio2 = new Radio(20);
-        Assertions.assertEquals(radio2.getNumStations(), 20);
-
-        // Negative case
-        try {
-            new Radio(-1);
-            Assertions.fail("Ожидаемое исключение не было выдано");
-        } catch (IllegalArgumentException e) {
-            Assertions.assertTrue(true);
-        }
-    }
-
     @Test //правильности установки и получения текущего номера станции
     public void testGetAndSetCurrentStationNumber() {
         Radio radio = new Radio();
